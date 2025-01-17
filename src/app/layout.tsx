@@ -13,6 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 import Header from "@/components/header";
+import Footer from "@/components/footer"
 
 export const metadata: Metadata = {
   title: "Giga protocol",
@@ -29,6 +30,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} >
         <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );

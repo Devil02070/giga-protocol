@@ -1,6 +1,7 @@
 'use client';
 import { useRef, useEffect, useState, RefObject } from 'react';
 import TrueFocus from '@/components/design/TrueFocus';
+import Link from 'next/link';
 
 interface SquaresProps {
   direction?: 'right' | 'left' | 'up' | 'down' | 'diagonal';
@@ -147,10 +148,9 @@ const Squares: React.FC<SquaresProps> = ({
     <>
       <div className="banner h-[90vh] relative">
         <canvas ref={canvasRef} className="w-full h-[90vh] border-none block"></canvas>
-        <div className="container absolute top-0 right-0 bottom-0 left-0 flex items-center m-auto">
-          <div className="row flex items-center justify-between gap-4">
+        <div className="container absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center m-auto">
+          <div className="row flex items-center gap-4">
             <div className="col w-full text-center">
-              {/* <h1 className='text-8xl'>Giga Protocol</h1> */}
               <TrueFocus
                 sentence="Giga Protocol"
                 manualMode={false}
@@ -159,9 +159,9 @@ const Squares: React.FC<SquaresProps> = ({
                 animationDuration={1}
                 pauseBetweenAnimations={2}
               />
-              <p className='pt-6 w-1/2 m-auto text-zinc-400'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Officia exercitationem dignissimos tempora unde voluptatibus pariatur explicabo accusantium assumenda nisi quam!ˀ</p>
+              <p className='pt-6 w-1/2 m-auto text-zinc-400 text-lg'>Empowering Your Crypto Journey with Automated Yield Optimization. Seamlessly stake, earn, and grow your assets with cutting-edge strategies designed to maximize your returns.</p>
               <div className="mt-6">
-                <button className='border py-2 px-6 rounded-full bg-black border-zinc-400 text-zinc-400 hover:text-white hover:border-white'>Launch App</button>
+               <Link href="/App"><button className='border py-2 px-6 rounded-full bg-black border-zinc-400 text-zinc-400 hover:text-white hover:border-white'>Launch App</button></Link>
                 <button className='border py-2 px-6 rounded-full ms-4 bg-black border-zinc-400 text-zinc-400 hover:text-white hover:border-white'>Explore</button>
               </div>
             </div>
