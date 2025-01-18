@@ -1,0 +1,21 @@
+[package]
+name = "giga_protocol"
+version = "1.0.0"
+authors = []
+
+[addresses]
+addrx="_"
+
+[dev-addresses]
+addrx="0xcafe"
+
+[dependencies.SupraFramework]
+git = "https://github.com/Entropy-Foundation/aptos-core.git"
+rev = "dev"
+subdir = "aptos-move/framework/supra-framework"
+
+[dependencies.EvoSwap]
+git = "https://github.com/EvoswapLabs/v1-core.git"
+rev = "1a237373ca4278c09e08f30d6e97b8d9ed6b698a"
+
+[dev-dependencies]

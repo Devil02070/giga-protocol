@@ -13,7 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 import Header from "@/components/header";
-import Footer from "@/components/footer"
+import Footer from "@/components/footer";
+import { SupraWalletProvider } from "@/context/SupraWalletProvider";
 
 export const metadata: Metadata = {
   title: "Giga protocol",
@@ -28,9 +29,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} >
-        <Header />
-        {children}
-        <Footer />
+        <SupraWalletProvider>
+          <Header />
+          {children}
+          <Footer />
+        </SupraWalletProvider>
       </body>
     </html>
   );

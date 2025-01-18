@@ -1,7 +1,9 @@
 'use client'
 import ShinyText from "@/components/design/ShinyText";
 import Link from "next/link";
+import { useSupraWallet } from "@/context/SupraWalletProvider";
 export default function Header() {
+    const { address, connect, disconnect } = useSupraWallet();
     return (
         <section className="header py-4 bg-black border-b border-zinc-900" >
             <div className="container m-auto">
@@ -16,7 +18,17 @@ export default function Header() {
                             <li className="hover:text-white cursor-pointer">Add Liquidity</li>
                             <li className="hover:text-white cursor-pointer">Lp-Farm</li>
                         </ul>
-                        <ShinyText text="Connect Wallet" disabled={false} speed={3} className='border border-zinc-400 p-2 px-6 rounded-full text-lg' />
+                        {
+                            address ?
+                                <button onClick={disconnect}>
+                                    <ShinyText text="Disconnect Wallet" disabled={false} speed={3} className='border border-zinc-400 p-2 px-6 rounded-full text-lg' />
+                                </button>
+                                :
+                                <button onClick={connect}>
+                                    <ShinyText text="Connect Wallet" disabled={false} speed={3} className='border border-zinc-400 p-2 px-6 rounded-full text-lg' />
+                                </button>
+                        }
+
                     </div>
                 </div>
             </div>

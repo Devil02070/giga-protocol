@@ -1,8 +1,10 @@
 'use client'
 
 import Image from "next/image"
-
+import { useSupraWallet } from "@/context/SupraWalletProvider"
 export default function Body() {
+    const { address } = useSupraWallet();
+    if(!address) return null;
     return (
         <>
             <section className="py-10">
@@ -10,6 +12,7 @@ export default function Body() {
                     <div className="row flex items-center justify-between gap-5">
                         <div className="col bg-cyan-800/30 p-10 w-1/2 rounded-2xl">
                             <h3 className="text-2xl font-bold">Portfolio:</h3>
+                            <h5>{address}</h5>
                             <div className="flex items-center gap-6 mt-5">
                                 <div className="box border-r border-zinc-600 text-center pe-5">
                                     <h3 className="text-lg text-zinc-400">Deposited</h3>
