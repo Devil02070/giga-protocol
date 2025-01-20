@@ -2,6 +2,7 @@
 import { useRef, useEffect, useState, RefObject } from 'react';
 import TrueFocus from '@/components/design/TrueFocus';
 import Link from 'next/link';
+import LiquidityForm from '../Form';
 
 interface SquaresProps {
   direction?: 'right' | 'left' | 'up' | 'down' | 'diagonal';
@@ -161,8 +162,9 @@ const Squares: React.FC<SquaresProps> = ({
               />
               <p className='pt-6 w-1/2 m-auto text-zinc-400 text-lg'>Empowering Your Crypto Journey with Automated Yield Optimization. Seamlessly stake, earn, and grow your assets with cutting-edge strategies designed to maximize your returns.</p>
               <div className="mt-6">
-               <Link href="/App"><button className='border py-2 px-6 rounded-full bg-black border-zinc-400 text-zinc-400 hover:text-white hover:border-white'>Launch App</button></Link>
-                <button className='border py-2 px-6 rounded-full ms-4 bg-black border-zinc-400 text-zinc-400 hover:text-white hover:border-white'>Explore</button>
+               {/* <Link href="/App"><button className='border py-2 px-6 rounded-full bg-black border-zinc-400 text-zinc-400 hover:text-white hover:border-white'>Launch App</button></Link> */}
+               <LiquidityForm />
+                <Link href="/#about"><button className='border py-2 px-6 rounded-full ms-4 bg-black border-zinc-400 text-zinc-400 hover:text-white hover:border-white'>Explore</button></Link>
               </div>
             </div>
           </div>

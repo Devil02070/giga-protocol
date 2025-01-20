@@ -9,7 +9,7 @@ export default function Body() {
         <>
             <Squares speed={0.5} squareSize={40} direction='up' borderColor='#ffffff10' hoverFillColor='#000' />
 
-            <section className="bg-cyan-800/20">
+            <section className="bg-cyan-800/20" id="about">
                 <div className="container m-auto py-24">
                     <h2 className="text-center text-5xl font-bold">Earn With Giga Protocol</h2>
                     <div className="w-1/2 m-auto mt-4 pt-[1px] bg-zinc-600"></div>
