@@ -11,15 +11,16 @@ supra move tool test --package-dir /supra/configs/ts_workspace/giga-protocol/src
 
 # PUBLISH COMMAND
 ```bash
-supra move tool publish --package-dir /supra/configs/ts_workspace/giga-protocol/src/move --profile default --url https://rpc-testnet.supra.com 
+supra move tool publish --package-dir /supra/configs/ts_workspace/giga-protocol/src/move --profile chat --url https://rpc-testnet.supra.com 
 ```
 
 # CREATE VAULT
 ```bash
 supra move tool run \
-    --function-id 0x161954cac8c983fa7cd4c792f503e752595a5434a8dec577b09a747e36f022b8::router::create_vault_entry \
-    --type-args "0x1::supra_coin::SupraCoin" "0x81155e25c265b20b713d03ba19e287968dc1f9a3946d1aa47b0de7f1eed671b3::ANT::ANT" "0x53f58e405ed45a7294d2064cedb3de5c96263ee8d3aa8d4d84f48b3089dfdab9::swap::LPToken<0x1::supra_coin::SupraCoin, 0x81155e25c265b20b713d03ba19e287968dc1f9a3946d1aa47b0de7f1eed671b3::ANT::ANT>" \
-    --args "string:evo" "string:newvault" \
-    --profile default \
+    --function-id 0xe45c507269c96c33ab0bb2726068581c32924c202ea5975859e72ad989e7c10a::router::create_vault_entry \
+    --type-args "0x1::supra_coin::SupraCoin" "0xd35f0429c49b5c8914dc34488d788873bd23da7c19f617ad3eb7418241d938b6::VB::VB"\
+    --profile chat \
     --url https://rpc-testnet.supra.com
 ```
+
+supra move account fund-with-faucet --profile giga --url https://rpc-testnet.supra.com 

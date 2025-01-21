@@ -2,9 +2,13 @@
 
 import Image from "next/image"
 import { useSupraWallet } from "@/context/SupraWalletProvider"
-export default function Body() {
+import { LPVault } from "@/utils/mongo"
+import { Vault } from "./Vault"
+type BodyProps = {
+    vaults: Array<LPVault>
+}
+export default function Body({ vaults }: BodyProps) {
     const { address } = useSupraWallet();
-    if(!address) return null;
     return (
         <>
             <section className="py-10">
@@ -45,6 +49,7 @@ export default function Body() {
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </section>
@@ -52,7 +57,7 @@ export default function Body() {
 
             <section className="py-10 border-t border-zinc-800">
 
-                <div className="container m-auto">
+                {/* <div className="container m-auto">
                     <div className="row flex items-center justify-between">
                         <div className="col w-1/2">
                             <input type="text" placeholder="Search" className="bg-transparent border border-zinc-400 focus:outline-none rounded-full py-2 px-4" />
@@ -69,7 +74,7 @@ export default function Body() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 <div className="container m-auto mt-10">
                     <div className="row">
@@ -77,42 +82,16 @@ export default function Body() {
                             <thead className="text-start bg-cyan-800/30">
                                 <tr>
                                     <th className="text-start py-4 px-5">Token</th>
-                                    <th className="text-start py-4 px-5">Wallet</th>
-                                    <th className="text-start py-4 px-5">Deposited</th>
-                                    <th className="text-start py-4 px-5">Apy</th>
-                                    <th className="text-start py-4 px-5">Daily</th>
                                     <th className="text-start py-4 px-5">Tvl</th>
-                                    <th className="text-start py-4 px-5">Safety</th>
+                                    <th className="text-start py-4 px-5">Last Harvest</th>
+                                    <th className="text-start py-4 px-5">Vault Fee</th>
+                                    <th className="text-start py-4 px-5">Action</th>
                                 </tr>
                             </thead>
                             <tbody className="text-start bg-zinc-900 text-zinc-400">
                                 {
-
-                                    Array.from({ length: 10 }).map((_, index) => (
-                                        <tr key={index} className="border-t border-zinc-800 hover:bg-cyan-800/10 cursor-pointer overflow-hidden">
-                                            <td className="py-3 px-5">
-                                                <p className="flex items-center gap-4">
-                                                    <p className="relative">
-                                                        <Image src="/images/usdc.svg" alt='token-icon' height={40} width={40} />
-                                                        <Image src="/images/arb-chain.svg" alt='chain-icon' height={20} width={20} className="absolute bottom-[-8px]" />
-                                                    </p>
-                                                    <p className="text-white">
-                                                        MEOW/USDcC
-                                                        <span className="flex items-center gap-2 mt-2">
-                                                            <span className="text-[10px] p-1 px-2 rounded bg-zinc-800">Curve</span>
-                                                            <span className="text-[10px] p-1 px-2 rounded bg-cyan-400/20">DAO Boost</span>
-                                                        </span>
-                                                    </p>
-                                                </p>
-
-                                            </td>
-                                            <td className="py-3 px-5">0</td>
-                                            <td className="py-3 px-5">0</td>
-                                            <td className="py-3 px-5">18.16%</td>
-                                            <td className="py-3 px-5">0.0468%</td>
-                                            <td className="py-3 px-5">$1234234</td>
-                                            <td className="py-3 px-5">***</td>
-                                        </tr>
+                                    vaults.map((data, index) => (
+                                        <Vault data={data} key={index} />
                                     ))
                                 }
                             </tbody>

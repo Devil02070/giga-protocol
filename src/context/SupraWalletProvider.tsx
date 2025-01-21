@@ -29,7 +29,8 @@ export const SupraWalletProvider: React.FC<{ children: React.ReactNode }> = ({
     children
 }) =>  {
     const getProvider = () => {
-        if ('starkey' in window) {
+
+        if (typeof window !== "undefined" && 'starkey' in window) {
             if (window.starkey?.supra) {
                 return window.starkey.supra;
             }

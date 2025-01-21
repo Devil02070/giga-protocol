@@ -1,6 +1,5 @@
 module addrx::router {
     use addrx::lp_vault;
-    use addrx::coin_helper;
     use evo::swap::LPToken;
     use supra_framework::supra_account;
     use supra_framework::coin::{Self, Coin};
@@ -12,9 +11,6 @@ module addrx::router {
     }
 
     public fun create_vault<X,Y>(): address {
-        if(!coin_helper::is_sorted<X,Y>()){
-            return create_vault<Y,X>()
-        };
         lp_vault::new_vault<X,Y>()
     }
 
@@ -29,9 +25,6 @@ module addrx::router {
         acc: &signer,
         amount: u64
     ) {
-        if(!coin_helper::is_sorted<X,Y>()){
-            return add_liquidity<Y,X>(acc, amount)
-        };
         let lp_coins = coin::withdraw<LPToken<X,Y>>(acc, amount);
         lp_vault::mint<X,Y>(acc, lp_coins)
     }
@@ -41,9 +34,6 @@ module addrx::router {
         amount: u64,
         recipient: address
     ) {
-        if(!coin_helper::is_sorted<X,Y>()){
-            return remove_liquidity_entry<Y,X>(acc, amount, recipient)
-        };
         let lp_coins = remove_liquidity<X,Y>(acc, amount);
         supra_account::deposit_coins(recipient, lp_coins);
     }

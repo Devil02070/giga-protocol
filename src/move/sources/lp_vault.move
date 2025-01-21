@@ -13,13 +13,11 @@ module addrx::lp_vault {
     use std::option;
     use aptos_std::bcs;
     use supra_framework::event;
-    use addrx::coin_helper;
     use aptos_std::math128;
     use aptos_std::math64;
     use evo::router;
     use supra_framework::supra_account;
     use std::debug;
-    use std::vector;
 
     friend addrx::router;
 
@@ -61,12 +59,31 @@ module addrx::lp_vault {
 
     #[event]
     struct VaultCreated has drop, store {
-        vault_addr: address,
-        token_1_addr: String,
-        token_2_addr: String,
+        lp: String,
+        x: String,
+        y: String,
+        lp_addr: String,
+        x_addr: String,
+        y_addr: String,
+        lp_decimals: u8,
+        x_decimals: u8,
+        y_decimals: u8,
         last_harvest: u64,
-        vault_fee_bps: u64
+        vault_fee_bps: u64,
+        vault_addr: address,
+        vp: String,
+        vp_decimals: u8,
     }
+
+    #[event]
+    struct VaultUpdated has drop, store {
+        amount_lp: u64,
+        amount_x: u64,
+        amount_y: u64,
+        last_harvest: u64,
+        vault_addr: address
+    }
+
 
     fun init_module(module_signer: &signer) {
         let constructor_ref = object::create_named_object(module_signer, APP_OBJECT_SEED);
@@ -96,6 +113,11 @@ module addrx::lp_vault {
         borrow_global<VaultConfigs>(addr)
     }
 
+    #[view]
+    public fun lp_token_exists<X,Y>(): bool {
+        coin::is_coin_initialized<LPToken<X,Y>>()
+    }
+
     public(friend) fun new_vault<X,Y>(): address acquires VaultConfigs {
         assert!(coin::is_coin_initialized<LPToken<X,Y>>(), LP_TOKEN_DOES_NOT_EXIST);
         let app_signer_addr = get_app_signer_address();
@@ -118,15 +140,23 @@ module addrx::lp_vault {
         let vault_addr = object::address_from_constructor_ref(vault_constructor_ref);
         smart_vector::push_back(&mut configs.all_vaults, vault_addr);
         event::emit(VaultCreated { 
-            vault_addr,
-            token_1_addr: type_info::type_name<X>(),
-            token_2_addr: type_info::type_name<X>(),
+            lp: coin::symbol<LPToken<X,Y>>(),
+            x: coin::symbol<X>(),
+            y: coin::symbol<Y>(),
+            lp_addr: type_info::type_name<LPToken<X,Y>>(),
+            x_addr: type_info::type_name<X>(),
+            y_addr: type_info::type_name<Y>(),
+            lp_decimals: coin::decimals<LPToken<X,Y>>(),
+            x_decimals: coin::decimals<X>(),
+            y_decimals: coin::decimals<Y>(),
             last_harvest: current_timestamp,
-            vault_fee_bps: configs.vault_fee_bps
+            vault_fee_bps: configs.vault_fee_bps,
+            vault_addr,
+            vp: fungible_asset::symbol(object::object_from_constructor_ref(vault_constructor_ref))
         });
 
-        object::address_from_constructor_ref(vault_constructor_ref)
-    }
+vault_addr    
+}
 
      inline fun create_vault_token<X,Y>(app_signer: &signer): &ConstructorRef {
         let token_name = vault_token_name<X,Y>();
@@ -185,6 +215,13 @@ module addrx::lp_vault {
         coin::merge(&mut vault_data.lp_coins, lp_coins);
         let vault_tokens = fungible_asset::mint(mint_ref, vault_token_amount);
         fungible_asset::deposit_with_ref(&vault_data.vault_token_refs.transfer_ref, vault_store, vault_tokens);
+        event::emit(VaultUpdated{
+            amount_lp: coin::value(&vault_data.lp_coins),
+            amount_x: coin::value(&vault_data.fee_coins_1),
+            amount_y: coin::value(&vault_data.fee_coins_2),
+            last_harvest: vault_data.last_harvest,
+            vault_addr: object::object_address(&vault),
+        })
     }
 
     public(friend) fun ensure_vault_token_store<T: key>(addr: address, vault: Object<T>): Object<FungibleStore> {
@@ -200,9 +237,6 @@ module addrx::lp_vault {
 
     #[view]
     public fun vault_address<X,Y>(): address {
-        if(!coin_helper::is_sorted<X,Y>()){
-            return vault_address<Y,X>()
-        };
         object::create_object_address(&get_app_signer_address(), get_vault_seeds<X,Y>())
     }
 
@@ -239,13 +273,20 @@ module addrx::lp_vault {
 
         assert!(amount_to_redeem > 0, ERROR_INSUFFICIENT_LIQUIDITY_REDEEMED);
 
-        coin::extract(&mut vault_data.lp_coins, amount_to_redeem)
+        let redeem = coin::extract(&mut vault_data.lp_coins, amount_to_redeem);
+
+        event::emit(VaultUpdated{
+            amount_lp: coin::value(&vault_data.lp_coins),
+            amount_x: coin::value(&vault_data.fee_coins_1),
+            amount_y: coin::value(&vault_data.fee_coins_2),
+            last_harvest: vault_data.last_harvest,
+            vault_addr: object::object_address(&vault),
+        });
+
+        redeem
     }
 
     public(friend) fun harvest<X,Y>() acquires LPVault, VaultConfigs {
-        if(!coin_helper::is_sorted<X,Y>()) {
-            return harvest<Y,X>()
-        };
         let vault = vault<X,Y>();
         let vault_data = unchecked_mut_vault_data(&vault);
         let liquidity = coin::value(&vault_data.lp_coins);
@@ -305,16 +346,29 @@ module addrx::lp_vault {
         coin::merge(&mut vault_data.fee_coins_2, fee_coins_2);
 
         vault_data.last_harvest = timestamp::now_seconds();
+        event::emit(VaultUpdated{
+            amount_lp: coin::value(&vault_data.lp_coins),
+            amount_x: coin::value(&vault_data.fee_coins_1),
+            amount_y: coin::value(&vault_data.fee_coins_2),
+            last_harvest: vault_data.last_harvest,
+            vault_addr: object::object_address(&vault),
+        })
     }
 
     #[view]
-    public fun all_vaults(): vector<address> {
-        
+    public fun all_vaults(): vector<address> acquires VaultConfigs {
+        if(exists<VaultConfigs>(get_app_signer_address())){
+            smart_vector::to_vector(&borrow_global<VaultConfigs>(get_app_signer_address()).all_vaults)
+        } else {
+            vector[]
+        }
     }
 
+    // (lpsymbol, coin1symbol, coin2symbol, lpcoins, fee1coins, fee2coins, lastharvest, vaultfeebps)
+    // #[view]
+    // public fun vault(object: address): (String, String, String) acquires LPVault {
 
-    // #[test_only]
-    // use std::debug;
+    // }
 
     #[test_only]
     use supra_framework::account;
@@ -480,8 +534,4 @@ module addrx::lp_vault {
         let vault = borrow_global<LPVault<CoinA,CoinB>>(vault_address<CoinA,CoinB>());
         debug::print(&coin::value(&vault.fee_coins_1));
     }
-
-
-
-
 }
