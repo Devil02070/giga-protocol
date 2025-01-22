@@ -44,14 +44,15 @@ export default function LiquidityForm({ vault }: { vault: LPVault }) {
     const fetchVpBalance = useCallback(async()=>{
         if(!address) return;
         try {
+            console.log("here")
             const moveValue = await supraClient.invokeViewMethod(
                 `0x1::primary_fungible_store::balance`,
                 [
-                    vault.lp_addr
+                    `0x1::fungible_asset::Metadata`
                 ],
                 [
                     new HexString(address).toString(),
-                    vault.vault_addr
+                    vault.vault_addr,
                 ]
             );
             setVpBalance(moveValue[0] / Math.pow(10, vault.vp_decimals))
@@ -80,8 +81,8 @@ export default function LiquidityForm({ vault }: { vault: LPVault }) {
                 "router",
                 "add_liquidity_entry",
                 [
-                    new TxnBuilderTypes.TypeTagParser(vault.x).parseTypeTag(),
-                    new TxnBuilderTypes.TypeTagParser(vault.y).parseTypeTag()
+                    new TxnBuilderTypes.TypeTagParser(vault.x_addr).parseTypeTag(),
+                    new TxnBuilderTypes.TypeTagParser(vault.y_addr).parseTypeTag()
                 ],
                 [
                     BCS.bcsSerializeUint64(amount),
@@ -114,8 +115,12 @@ export default function LiquidityForm({ vault }: { vault: LPVault }) {
                     })
                 }
             );
+            fetchLpBalance();
+            fetchVpBalance();
+            setAddAmount("")
             toast.success("Lp tokens staked successfully")
         } catch (error) {
+            console.log(error)
             toast.error(errorMessage(error))
         }
     }
@@ -137,11 +142,12 @@ export default function LiquidityForm({ vault }: { vault: LPVault }) {
                 "router",
                 "remove_liquidity_entry",
                 [
-                    new TxnBuilderTypes.TypeTagParser(vault.x).parseTypeTag(),
-                    new TxnBuilderTypes.TypeTagParser(vault.y).parseTypeTag()
+                    new TxnBuilderTypes.TypeTagParser(vault.x_addr).parseTypeTag(),
+                    new TxnBuilderTypes.TypeTagParser(vault.y_addr).parseTypeTag()
                 ],
                 [
                     BCS.bcsSerializeUint64(amount),
+                    new HexString(address).toUint8Array()
                 ],
             );
             const data = Buffer.from(raw_obj).toString('hex');
@@ -171,6 +177,9 @@ export default function LiquidityForm({ vault }: { vault: LPVault }) {
                     })
                 }
             );
+            fetchLpBalance();
+            fetchVpBalance();
+            setRemoveAmount("");
             toast.success("Lp tokens unstaked successfully")
         } catch (error) {
             toast.error(errorMessage(error))
@@ -179,7 +188,7 @@ export default function LiquidityForm({ vault }: { vault: LPVault }) {
 
     return (
         <>
-            <button className="border py-2 px-6 rounded-full bg-black border-zinc-400 text-zinc-400 hover:text-white hover:border-white" onClick={ShowModal}>Opt In.</button>
+            <button className="border py-2 px-6 rounded-full bg-black border-zinc-400 text-zinc-400 hover:text-white hover:border-white" onClick={ShowModal}>Action</button>
             <dialog id="my_modal_3" className="modal bg-black/50">
                 <div className="modal-box bg-zinc-900 p-8 h-fit">
                     <form method="dialog">
@@ -197,6 +206,7 @@ export default function LiquidityForm({ vault }: { vault: LPVault }) {
                                 <div className="form-control">
                                     <label className="label mt-4">
                                         <span className="label-text">{vault.lp} Bal: {lpBalance}</span>
+                                        <button type="button" onClick={()=>setAddAmount(lpBalance.toString())}>Max</button>
                                     </label>
                                     <input type="string" placeholder="Enter Amount" className="input input-bordered focus:outline-none" value={addAmount} onChange={(e) => setAddAmount(e.target.value)} />
                                     <button className="btn btn-primary w-full mt-10" onClick={()=>addLiquidity()}>Add Lp Tokens to vault</button>
@@ -210,6 +220,7 @@ export default function LiquidityForm({ vault }: { vault: LPVault }) {
                                     <label className="label mt-4">
                                         <span className="label-text">{vault.vp} Bal: {vpBalance}</span>
                                     </label>
+                                    <button type="button" onClick={()=>setRemoveAmount(vpBalance.toString())}>Max</button>
                                     <input type="string" placeholder="Enter Amount" className="input input-bordered focus:outline-none" value={removeAmount} onChange={(e) => setRemoveAmount(e.target.value)} />
                                 </div>
                                 <button className="btn btn-primary w-full mt-10" onClick={()=>removeLiquidity()}>Remove Lp Tokens from vault</button>

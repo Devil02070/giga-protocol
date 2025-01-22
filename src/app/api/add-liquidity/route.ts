@@ -1,19 +1,17 @@
 import { errorMessage } from "@/utils/errorMessage";
 import { NextRequest, NextResponse } from "next/server";
 import { getSupraClient } from "@/utils/getSupraClient";
-import { HexString, SupraAccount, TxnBuilderTypes } from "supra-l1-sdk";
-import { Vault, dbConnect } from "@/utils/mongo";
+import { BCS, HexString, SupraAccount, TxnBuilderTypes } from "supra-l1-sdk";
+import { dbConnect } from "@/utils/mongo";
 
 dbConnect();
 const supraClient = getSupraClient();
 
-const VAULT_CREATED_EVENT = `${process.env.ABI}::lp_vault::VaultCreated`;
-
 export async function POST(request: NextRequest) {
     try {
         const req = await request.json();
-        const { pk, x, y } = req;
-        if (!pk || !x || !y) {
+        const { pk, x, y, amount_x, amount_y } = req;
+        if (!pk || !x || !y || !amount_x || !amount_y) {
             throw new Error("Incorrect nunber of args")
         }
         let rePk = pk;
@@ -24,14 +22,19 @@ export async function POST(request: NextRequest) {
         const transaction = await supraClient.createSerializedRawTxObject(
             new HexString(supraAccount.address().toString()),
             (await supraClient.getAccountInfo(supraAccount.address())).sequence_number,
-            process.env.ABI as string,
+            "0x53f58e405ed45a7294d2064cedb3de5c96263ee8d3aa8d4d84f48b3089dfdab9",
             "router",
-            "create_vault_entry",
+            "add_liquidity",
             [
                 new TxnBuilderTypes.TypeTagParser(x).parseTypeTag(),
                 new TxnBuilderTypes.TypeTagParser(y).parseTypeTag()
             ],
-            []
+            [
+                BCS.bcsSerializeUint64(amount_x),
+                BCS.bcsSerializeUint64(amount_y),
+                BCS.bcsSerializeUint64(0),
+                BCS.bcsSerializeUint64(0),
+            ]
         );
         const txn = await supraClient.sendTxUsingSerializedRawTransaction(
             supraAccount,
@@ -41,37 +44,6 @@ export async function POST(request: NextRequest) {
                 enableTransactionSimulation: true,
             }
         )
-
-        const txnResponse = await supraClient.getTransactionDetail(
-            supraAccount.address(),
-            txn.txHash
-        );
-
-        if (!txnResponse) {
-            throw new Error("Txn not found by hash")
-        }
-        const events: any[] = txnResponse.events;
-        const event = events.find((event) => event.type === VAULT_CREATED_EVENT);
-        if (!event) {
-            throw new Error("Vault event not found")
-        }
-        const vault = new Vault({
-            lp: event.data.lp,
-            x: event.data.x,
-            y: event.data.y,
-            lp_addr: event.data.lp_addr,
-            x_addr: event.data.x_addr,
-            y_addr: event.data.y_addr,
-            lp_decimals: event.data.lp_decimals,
-            x_decimals: event.data.x_decimals,
-            y_decimals: event.data.y_decimals,
-            last_harvest: event.data.last_harvest,
-            vault_fee_bps: event.data.vault_fee_bps,
-            vault_addr: event.data.vault_addr,
-            vp: event.data.vp,
-            vp_decimals: event.data.vp_decimals,
-        })
-        await vault.save();
 
         return NextResponse.json({ message: "success", data: { hash: txn.txHash, result: txn.result } })
     } catch (error) {

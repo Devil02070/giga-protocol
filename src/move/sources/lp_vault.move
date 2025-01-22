@@ -17,7 +17,7 @@ module addrx::lp_vault {
     use aptos_std::math64;
     use evo::router;
     use supra_framework::supra_account;
-    use std::debug;
+ 
 
     friend addrx::router;
 
@@ -152,7 +152,8 @@ module addrx::lp_vault {
             last_harvest: current_timestamp,
             vault_fee_bps: configs.vault_fee_bps,
             vault_addr,
-            vp: fungible_asset::symbol(object::object_from_constructor_ref(vault_constructor_ref))
+            vp: fungible_asset::symbol(vault_token),
+            vp_decimals: fungible_asset::decimals(vault_token)
         });
 
 vault_addr    
@@ -319,10 +320,7 @@ vault_addr
         );
 
         let new_liquidity = coin::balance<LPToken<X,Y>>(get_app_signer_address());
-        // debug::print(&amount_x);
-        // debug::print(&amount_y);
-        debug::print(&new_liquidity);
-        debug::print(&liquidity);
+
         assert!(new_liquidity > liquidity, ERROR_NO_REWARDS_TO_HARVEST);
         let added_liquidity = new_liquidity - liquidity;
         let liquidity_fee = math64::mul_div(added_liquidity, vault_data.vault_fee_bps, FEE_SCALE);
@@ -364,12 +362,14 @@ vault_addr
         }
     }
 
-    // (lpsymbol, coin1symbol, coin2symbol, lpcoins, fee1coins, fee2coins, lastharvest, vaultfeebps)
-    // #[view]
-    // public fun vault(object: address): (String, String, String) acquires LPVault {
+    #[view]
+    public fun vault_num(): u64 acquires VaultConfigs {
+        smart_vector::length(&borrow_global<VaultConfigs>(get_app_signer_address()).all_vaults)
+    }
 
-    // }
-
+    #[test_only]
+    use std::debug;
+    
     #[test_only]
     use supra_framework::account;
 

@@ -16,9 +16,9 @@ export function Vault({ data }: { data: LPVault }) {
                 </p>
 
             </td>
-            <td className="py-3 px-5">{data.amount_lp} {data.lp}</td>
+            <td className="py-3 px-5">{data.amount_lp / Math.pow(10, data.lp_decimals)} {data.lp}</td>
             <td className="py-3 px-5">{new Date(data.last_harvest * 1000).toLocaleString()}</td>
-            <td className="py-3 px-5">{data.vault_fee_bps}</td>
+            <td className="py-3 px-5">{data.vault_fee_bps / 1000}</td>
             <td className="py-3 px-5">
                 <LiquidityForm vault={data}/>
             </td>
