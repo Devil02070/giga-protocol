@@ -3,6 +3,7 @@ import { useRef, useEffect, useState, RefObject } from 'react';
 import TrueFocus from '@/components/design/TrueFocus';
 import Link from 'next/link';
 import LiquidityForm from '../../App/Body/Form';
+import { toast } from 'sonner';
 
 interface SquaresProps {
   direction?: 'right' | 'left' | 'up' | 'down' | 'diagonal';
@@ -144,6 +145,8 @@ const Squares: React.FC<SquaresProps> = ({
       canvas.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, [direction, speed, borderColor, hoverFillColor, squareSize]);
+
+   toast.success('heheh');
 
   return (
     <>
