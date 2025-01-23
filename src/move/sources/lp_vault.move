@@ -511,7 +511,7 @@ vault_addr
 
 
     #[test(supra_framework = @0x1, evo_framework = @evo_framework, dev = @dev, admin= @admin, treasury = @treasury, resource_account = @evo, alice = @0x123, bob = @0x456, new_acc = @0xcafe, john = @0x111)]
-    #[expected_failure]
+    #[expected_failure(abort_code = ERROR_NO_REWARDS_TO_HARVEST)] // need sufficient fees to harvest 
     public fun harvest_test(
         supra_framework: signer,
         evo_framework: &signer,

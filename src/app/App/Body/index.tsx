@@ -1,14 +1,27 @@
 'use client'
 
-import Image from "next/image"
 import { useSupraWallet } from "@/context/SupraWalletProvider"
 import { LPVault } from "@/utils/mongo"
 import { Vault } from "./Vault"
+import { useCallback, useEffect, useState } from "react"
 type BodyProps = {
     vaults: Array<LPVault>
 }
 export default function Body({ vaults }: BodyProps) {
-    const { address } = useSupraWallet();
+    const { address, supraWallet } = useSupraWallet();
+    const [bal, setBal] = useState("0")
+    const fetchSupraBalance = useCallback(async()=>{
+        if(!address || !supraWallet) return;
+        try {
+            const supraBal = (await supraWallet.balance());
+            setBal(supraBal.formattedBalance + supraBal.displayUnit)
+        } catch (error) {
+            console.log(error)
+        }
+    },[address])
+    useEffect(()=>{
+        fetchSupraBalance()
+    },[fetchSupraBalance])
     return (
         <>
             <section className="py-10">
@@ -19,8 +32,8 @@ export default function Body({ vaults }: BodyProps) {
                             <h5>{address}</h5>
                             <div className="flex items-center gap-6 mt-5">
                                 <div className="box border-r border-zinc-600 text-center pe-5">
-                                    <h3 className="text-lg text-zinc-400">Deposited</h3>
-                                    <h3 className="text-2xl mt-2">$0</h3>
+                                    <h3 className="text-lg text-zinc-400">Balance</h3>
+                                    <h3 className="text-xl mt-2">{bal}</h3>
                                 </div>
                                 <div className="box border-r border-zinc-600 text-center pe-5">
                                     <h3 className="text-lg text-zinc-400">Monthly yield</h3>
@@ -45,7 +58,7 @@ export default function Body({ vaults }: BodyProps) {
                                 </div>
                                 <div className="box">
                                     <h3 className="text-lg text-zinc-400">Vaults</h3>
-                                    <h3 className="text-2xl mt-2">123</h3>
+                                    <h3 className="text-2xl mt-2">{vaults.length}</h3>
                                 </div>
                             </div>
                         </div>
