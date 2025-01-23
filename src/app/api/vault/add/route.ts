@@ -50,6 +50,7 @@ export async function POST(request: NextRequest) {
         if (!txnResponse) {
             throw new Error("Txn not found by hash")
         }
+        // const events: any[] = txnResponse.events;
         const events: any[] = txnResponse.events;
         const event = events.find((event) => event.type === VAULT_CREATED_EVENT);
         if (!event) {

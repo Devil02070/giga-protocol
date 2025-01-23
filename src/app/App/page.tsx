@@ -1,6 +1,6 @@
 import { LPVault } from "@/utils/mongo";
 import Body from "./Body";
-export default async function () {
+export default async function AppPage() {
     const fetchData = async () => {
         const data = await fetch(`${process.env.SITE_URL}/api/vault`)
             .then((res) => {

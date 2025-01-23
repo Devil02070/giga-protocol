@@ -1,6 +1,4 @@
 'use client'
-
-import Image from "next/image"
 import { useSupraWallet } from "@/context/SupraWalletProvider"
 import { LPVault } from "@/utils/mongo"
 import { Vault } from "./Vault"

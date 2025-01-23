@@ -40,7 +40,7 @@ export default function LiquidityForm({ vault }: { vault: LPVault }) {
         } catch (error) {
             console.log(error)
         }
-    },[address])
+    },[address, vault.lp_decimals, vault.lp_addr])
     const fetchVpBalance = useCallback(async()=>{
         if(!address) return;
         try {
@@ -59,7 +59,7 @@ export default function LiquidityForm({ vault }: { vault: LPVault }) {
         } catch (error) {
             console.log(error)
         }
-    },[address])
+    },[address, vault.vp_decimals, vault.vault_addr])
     useEffect(()=>{
         fetchLpBalance();
         fetchVpBalance();

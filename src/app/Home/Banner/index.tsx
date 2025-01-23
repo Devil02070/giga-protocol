@@ -1,8 +1,9 @@
 'use client';
-import { useRef, useEffect, useState, RefObject } from 'react';
+// import { useRef, useEffect, useState, RefObject } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import TrueFocus from '@/components/design/TrueFocus';
 import Link from 'next/link';
-import LiquidityForm from '../../App/Body/Form';
+// import LiquidityForm from '../../App/Body/Form';
 interface SquaresProps {
   direction?: 'right' | 'left' | 'up' | 'down' | 'diagonal';
   speed?: number;
@@ -142,7 +143,7 @@ const Squares: React.FC<SquaresProps> = ({
       canvas.removeEventListener('mousemove', handleMouseMove);
       canvas.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, [direction, speed, borderColor, hoverFillColor, squareSize]);
+  }, [direction, speed, borderColor, hoverFillColor, hoveredSquare, squareSize]);
 
   return (
     <>

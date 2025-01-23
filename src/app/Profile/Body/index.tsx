@@ -1,5 +1,5 @@
 'use client'
-export default function () {
+export default function Body () {
     return (
         <>
             <section className="py-10">
