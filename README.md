@@ -1,5 +1,3 @@
-## Giga Protocol 🦾
-A decentralized yield optimization protocol similar to Beefy.
 <a id="readme-top"></a>
 
 [![Contributors][contributors-shield]][contributors-url]
@@ -10,21 +8,21 @@ A decentralized yield optimization protocol similar to Beefy.
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/ajaythxkur/meowfi">
-    <img src="media-kit/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/Devil02070/giga-protocol">
+    <img src="media-kit/logo.jpeg" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">MeowFi (Meowtos)</h3>
+  <h3 align="center">Giga Protocol 🦾</h3>
 
   <p align="center">
-    Turn your NFTs into collateral and access cryptocurrency loans with ease. No need to sell—just lend your NFTs and get the liquidity you need in minutes.
+    A decentralized yield optimization protocol similar to Beefy.
     <br />
     <br />
-    <a href="https://youtu.be/n_O28LvNU1I?si=Kdq1D9lt_t9Se_6d">View Demo</a>
+    <!-- <a href="https://youtu.be/n_O28LvNU1I?si=Kdq1D9lt_t9Se_6d">View Demo</a> -->
     ·
-    <a href="https://github.com/ajaythxkur/meowfi/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/Devil02070/meowfi/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
-    <a href="https://github.com/ajaythxkur/meowfi/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/Devil02070/meowfi/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
 </div>
 
@@ -38,7 +36,6 @@ A decentralized yield optimization protocol similar to Beefy.
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
-    <li><a href="#architecture">Architecture</a></li>
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
@@ -46,8 +43,6 @@ A decentralized yield optimization protocol similar to Beefy.
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
@@ -56,25 +51,22 @@ A decentralized yield optimization protocol similar to Beefy.
 
 ## About The Project
 
-[![MeowFi screenshot][product-screenshot]](https://testnet-fi.meowtos.xyz)
-[![MeowFi screenshot][product-screenshot-dark]](https://testnet-fi.meowtos.xyz)
+[![MeowFi screenshot][product-screenshot]](https://testnet-giga-ptotol.xyz)
+[![MeowFi screenshot][product-screenshot-dark]](https://testnet-giga-ptotol.xyz)
 
-Welcome to MeowFi (a Meowtos product), the future of decentralized finance where NFTs are more than just art—they are assets. Meowfi is a groundbreaking platform on the Aptos blockchain, enabling users to leverage their NFTs as collateral and access token-based loans.
+Giga Protocol is a decentralized, multi-chain yield optimization platform that helps users maximize returns on their crypto assets. It automates compounding, optimizes gas costs, and provides seamless integration with multiple DeFi platforms.
 
 Key Features:
 
-- Borrowers can securely use their NFTs as collateral to unlock liquidity.
-- Lenders can offer tokens, such as Aptos, to borrowers in exchange for interest, creating a win-win lending environment.
-- Simple and efficient—borrowers get access to tokens, while lenders earn by providing liquidity.
-- Stay connected through our real-time Discord updates, keeping you informed about loans, collateral, and community events.
+- Auto-compounding to maximize APY
+- Secure smart contracts with audits
+- Low fees & gas optimization
+- Governance & staking incentives
 
-Meowtos is here to redefine how you utilize NFTs. Join us today and experience decentralized NFT finance on Aptos!
 
 <p align="right">(<a href="#readme-top">Back to top</a>)</p>
 
-### Architecture
 
-[![Architecture screenshot][architecture-screenshot]](https://testnet-fi.meowtos.xyz)
 
 ### Built With
 
@@ -87,7 +79,7 @@ Meowtos is here to redefine how you utilize NFTs. Join us today and experience d
 
 ## Getting Started
 
-Follow these steps to set up Meowfi locally on your machine:
+Follow these steps to set up Giga protocol locally on your machine:
 
 ### Prerequisites
 
@@ -96,7 +88,6 @@ Ensure you have the following installed:
 - Node.js (version 16+)
 - Aptos CLI for interacting with the Aptos blockchain
 - Git for version control
-- Discord Bot Token for Discord integration
 
 ## Installation
 
@@ -173,46 +164,6 @@ Happy coding!
 
 <p align="right">(<a href="#readme-top">Back to top</a>)</p>
 
-<!-- ROADMAP -->
-
-## Roadmap 
-
-- [x] Meow Token
-- [x] Meow Spin
-- [x] Meow Sniping Bot (First sniping bot on Aptos)
-- [x] Legends Trade Premarket (First premarket on Aptos)
-- [x] MeowFi Testnet Launch
-- [ ] Hackathon Winning
-  - [ ] Bigger Parntnerships
-  - [ ] MeowFi Mainnet Launch
-- [ ] Building more tools on Aptos
- 
-See the [open issues](https://github.com/ajaythxkur/meowfi/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">Back to top</a>)</p>
-
-<!-- CONTRIBUTING -->
-
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/awesome-aptos`)
-3. Commit your Changes (`git commit -m 'Add some awesome-aptos'`)
-4. Push to the Branch (`git push origin feature/awesome-aptos`)
-5. Open a Pull Request
-
-### Top contributors:
-
-<a href="https://github.com/ajaythxkur/meowfi/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=ajaythxkur/meowfi" alt="contrib.rocks image" />
-</a>
-
-<p align="right">(<a href="#readme-top">Back to top</a>)</p>
 
 <!-- ACKNOWLEDGMENTS -->
 
@@ -230,18 +181,18 @@ We would like to express our gratitude to the following resources that have sign
 <p align="right">(<a href="#readme-top">Back to top</a>)</p>
 
 [contributors-shield]: https://img.shields.io/github/contributors/ajaythxkur/wiz_protocol.svg?style=for-the-badge
-[contributors-url]: https://github.com/ajaythxkur/meowfi/graphs/contributors
+[contributors-url]: https://github.com/Devil02070/meowfi/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/ajaythxkur/meowfi.svg?style=for-the-badge
-[forks-url]: https://github.com/ajaythxkur/meowfi/network/members
+[forks-url]: https://github.com/Devil02070/meowfi/network/members
 [stars-shield]: https://img.shields.io/github/stars/ajaythxkur/meowfi.svg?style=for-the-badge
-[stars-url]: https://github.com/ajaythxkur/meowfi/stargazers
+[stars-url]: https://github.com/Devil02070/meowfi/stargazers
 [issues-shield]: https://img.shields.io/github/issues/ajaythxkur/meowfi.svg?style=for-the-badge
-[issues-url]: https://github.com/ajaythxkur/meowfi/issues
-[github-url]: https://github.com/ajaythxkur/meowfi
+[issues-url]: https://github.com/Devil02070/meowfi/issues
+[github-url]: https://github.com/Devil02070/meowfi
 [product-screenshot]: media-kit/screenshot.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [Move]: media-kit/move.png?style=for-the-badge
 [Move-url]: https://aptos.dev/en/build/smart-contracts
 [architecture-screenshot]: media-kit/architecture.jpeg
-[product-screenshot-dark]: media-kit/screenshot-dark.png
+[product-screenshot-dark]: media-kit/demo.jpeg
