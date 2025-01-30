@@ -1,38 +1,247 @@
 ## Giga Protocol 🦾
 A decentralized yield optimization protocol similar to Beefy.
+<a id="readme-top"></a>
 
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/ajaythxkur/meowfi">
+    <img src="media-kit/logo.png" alt="Logo" width="80" height="80">
+  </a>
+
+  <h3 align="center">MeowFi (Meowtos)</h3>
+
+  <p align="center">
+    Turn your NFTs into collateral and access cryptocurrency loans with ease. No need to sell—just lend your NFTs and get the liquidity you need in minutes.
+    <br />
+    <br />
+    <a href="https://youtu.be/n_O28LvNU1I?si=Kdq1D9lt_t9Se_6d">View Demo</a>
+    ·
+    <a href="https://github.com/ajaythxkur/meowfi/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    ·
+    <a href="https://github.com/ajaythxkur/meowfi/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+  </p>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
+
+<!-- ABOUT THE PROJECT -->
+
+## About The Project
+
+[![MeowFi screenshot][product-screenshot]](https://testnet-fi.meowtos.xyz)
+[![MeowFi screenshot][product-screenshot-dark]](https://testnet-fi.meowtos.xyz)
+
+Welcome to MeowFi (a Meowtos product), the future of decentralized finance where NFTs are more than just art—they are assets. Meowfi is a groundbreaking platform on the Aptos blockchain, enabling users to leverage their NFTs as collateral and access token-based loans.
+
+Key Features:
+
+- Borrowers can securely use their NFTs as collateral to unlock liquidity.
+- Lenders can offer tokens, such as Aptos, to borrowers in exchange for interest, creating a win-win lending environment.
+- Simple and efficient—borrowers get access to tokens, while lenders earn by providing liquidity.
+- Stay connected through our real-time Discord updates, keeping you informed about loans, collateral, and community events.
+
+Meowtos is here to redefine how you utilize NFTs. Join us today and experience decentralized NFT finance on Aptos!
+
+<p align="right">(<a href="#readme-top">Back to top</a>)</p>
+
+### Architecture
+
+[![Architecture screenshot][architecture-screenshot]](https://testnet-fi.meowtos.xyz)
+
+### Built With
+
+- [Aptos Move][Move-url]
+- [Nextjs][Next-url]
+
+<p align="right">(<a href="#readme-top">Back to top</a>)</p>
+
+<!-- GETTING STARTED -->
 
 ## Getting Started
 
-First, run the development server:
+Follow these steps to set up Meowfi locally on your machine:
+
+### Prerequisites
+
+Ensure you have the following installed:
+
+- Node.js (version 16+)
+- Aptos CLI for interacting with the Aptos blockchain
+- Git for version control
+- Discord Bot Token for Discord integration
+
+## Installation
+
+Follow these steps to compile, test, and deploy the contract on Aptos:
+
+### 1. Compile the contract:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+aptos move compile --dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Run contract tests:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+aptos move test
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. Deploy the contract:
 
-## Learn More
+Initialize the Aptos environment:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+aptos init --network devnet
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Set the publisher profile and address:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+PUBLISHER_PROFILE=default
+PUBLISHER_ADDR=0x$(aptos config show-profiles --profile=$PUBLISHER_PROFILE | grep 'account' | sed -n 's/.*"account": \"\(.*\)\".*/\1/p')
+```
 
-## Deploy on Vercel
+Publish the contract by creating an object and deploying the package:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+aptos move create-object-and-publish-package \
+   --address-name my_addrx \
+   --named-addresses my_addrx=$PUBLISHER_ADDR \
+   --profile $PUBLISHER_PROFILE \
+   --assume-yes
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 4. Update the contract:
+
+Set the contract object address:
+
+```bash
+CONTRACT_OBJECT_ADDR="your_contract_object_address_here"
+```
+
+Run the following command to upgrade the contract:
+
+```bash
+aptos move upgrade-object-package \
+   --object-address $CONTRACT_OBJECT_ADDR \
+   --named-addresses my_addrx=$CONTRACT_OBJECT_ADDR \
+   --profile $PUBLISHER_PROFILE \
+   --assume-yes
+```
+
+### 4. Start local development:
+
+To run the project locally, follow these steps:
+
+1. **Set up environment variables**: Ensure you have your `.env.local` file configured.
+2. **Install dependencies and start the frontend**:
+
+   ```bash
+   cd frontend && npm install && npm run dev
+   ```
+---
+
+Happy coding!
+
+<p align="right">(<a href="#readme-top">Back to top</a>)</p>
+
+<!-- ROADMAP -->
+
+## Roadmap 
+
+- [x] Meow Token
+- [x] Meow Spin
+- [x] Meow Sniping Bot (First sniping bot on Aptos)
+- [x] Legends Trade Premarket (First premarket on Aptos)
+- [x] MeowFi Testnet Launch
+- [ ] Hackathon Winning
+  - [ ] Bigger Parntnerships
+  - [ ] MeowFi Mainnet Launch
+- [ ] Building more tools on Aptos
+ 
+See the [open issues](https://github.com/ajaythxkur/meowfi/issues) for a full list of proposed features (and known issues).
+
+<p align="right">(<a href="#readme-top">Back to top</a>)</p>
+
+<!-- CONTRIBUTING -->
+
+## Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/awesome-aptos`)
+3. Commit your Changes (`git commit -m 'Add some awesome-aptos'`)
+4. Push to the Branch (`git push origin feature/awesome-aptos`)
+5. Open a Pull Request
+
+### Top contributors:
+
+<a href="https://github.com/ajaythxkur/meowfi/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=ajaythxkur/meowfi" alt="contrib.rocks image" />
+</a>
+
+<p align="right">(<a href="#readme-top">Back to top</a>)</p>
+
+<!-- ACKNOWLEDGMENTS -->
+
+## Acknowledgments
+
+We would like to express our gratitude to the following resources that have significantly contributed to our development journey:
+
+- [Aptos Docs](https://aptos.dev)
+- [Aptos Learn](https://learn.aptoslabs.com)
+
+### Specially
+
+- [Aptos dev discussions](https://github.com/aptos-labs/aptos-developer-discussions/discussions)
+
+<p align="right">(<a href="#readme-top">Back to top</a>)</p>
+
+[contributors-shield]: https://img.shields.io/github/contributors/ajaythxkur/wiz_protocol.svg?style=for-the-badge
+[contributors-url]: https://github.com/ajaythxkur/meowfi/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/ajaythxkur/meowfi.svg?style=for-the-badge
+[forks-url]: https://github.com/ajaythxkur/meowfi/network/members
+[stars-shield]: https://img.shields.io/github/stars/ajaythxkur/meowfi.svg?style=for-the-badge
+[stars-url]: https://github.com/ajaythxkur/meowfi/stargazers
+[issues-shield]: https://img.shields.io/github/issues/ajaythxkur/meowfi.svg?style=for-the-badge
+[issues-url]: https://github.com/ajaythxkur/meowfi/issues
+[github-url]: https://github.com/ajaythxkur/meowfi
+[product-screenshot]: media-kit/screenshot.png
+[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+[Next-url]: https://nextjs.org/
+[Move]: media-kit/move.png?style=for-the-badge
+[Move-url]: https://aptos.dev/en/build/smart-contracts
+[architecture-screenshot]: media-kit/architecture.jpeg
+[product-screenshot-dark]: media-kit/screenshot-dark.png
