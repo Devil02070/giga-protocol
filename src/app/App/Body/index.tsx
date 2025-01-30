@@ -1,15 +1,12 @@
 'use client'
 
-import Image from "next/image"
 import { useSupraWallet } from "@/context/SupraWalletProvider"
 import { LPVault } from "@/utils/mongo"
 import { Vault } from "./Vault"
 import { useCallback, useEffect, useState } from "react"
-type BodyProps = {
-    vaults: Array<LPVault>
-}
-export default function Body({ vaults }: BodyProps) {
+export default function Body() {
     const { address, supraWallet } = useSupraWallet();
+    const [vaults, setVaults] = useState<Array<LPVault>>([])
     const [bal, setBal] = useState("0")
     const fetchSupraBalance = useCallback(async()=>{
         if(!address || !supraWallet) return;
@@ -19,10 +16,27 @@ export default function Body({ vaults }: BodyProps) {
         } catch (error) {
             console.log(error)
         }
-    },[address])
+    },[address, supraWallet])
+    const fetchData = async () => {
+        const data = await fetch(`${process.env.SITE_URL}/api/vault`)
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then((response) => response.data)
+            .catch((err) => console.error(err));
+        return data;
+    };
+    const getVaults = useCallback(async()=>{
+        const data: Array<LPVault> = await fetchData()
+        setVaults(data)
+    },[])
     useEffect(()=>{
         fetchSupraBalance()
-    },[fetchSupraBalance])
+        getVaults()
+    },[fetchSupraBalance, getVaults])
     return (
         <>
             <section className="py-10">

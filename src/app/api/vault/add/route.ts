@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
         if (!txnResponse) {
             throw new Error("Txn not found by hash")
         }
-        // const events: any[] = txnResponse.events;
+        // eslint-disable-next-line  @typescript-eslint/no-explicit-any
         const events: any[] = txnResponse.events;
         const event = events.find((event) => event.type === VAULT_CREATED_EVENT);
         if (!event) {
@@ -76,7 +76,6 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({ message: "success", data: { hash: txn.txHash, result: txn.result } })
     } catch (error) {
-        console.log(error)
         return NextResponse.json({ message: errorMessage(error) }, { status: 500 })
     }
 }

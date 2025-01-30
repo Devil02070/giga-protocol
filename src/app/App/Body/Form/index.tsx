@@ -219,8 +219,8 @@ export default function LiquidityForm({ vault }: { vault: LPVault }) {
                                 <div className="form-control">
                                     <label className="label mt-4">
                                         <span className="label-text">{vault.vp} Bal: {vpBalance}</span>
+                                        <button type="button" onClick={()=>setRemoveAmount(vpBalance.toString())}>Max</button>
                                     </label>
-                                    <button type="button" onClick={()=>setRemoveAmount(vpBalance.toString())}>Max</button>
                                     <input type="string" placeholder="Enter Amount" className="input input-bordered focus:outline-none" value={removeAmount} onChange={(e) => setRemoveAmount(e.target.value)} />
                                 </div>
                                 <button className="btn btn-primary w-full mt-10" onClick={()=>removeLiquidity()}>Remove Lp Tokens from vault</button>

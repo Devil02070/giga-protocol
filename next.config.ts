@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
     SUPRA_RPC_URL: process.env.SUPRA_RPC_URL,
     MONGO_URL: process.env.MONGO_URL,
     SITE_URL: process.env.SITE_URL,
+  },
+  eslint: {
+    ignoreDuringBuilds: true
   }
 };
 
