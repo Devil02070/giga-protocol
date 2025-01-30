@@ -31,7 +31,7 @@ export default function Body() {
     };
     const getVaults = useCallback(async()=>{
         const data: Array<LPVault> = await fetchData()
-        setVaults(data)
+        setVaults(data || [])
     },[])
     useEffect(()=>{
         fetchSupraBalance()

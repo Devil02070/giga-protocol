@@ -1,3 +1,5 @@
+export const maxDuration = 60; // This function can run for a maximum of 5 seconds
+
 import { errorMessage } from "@/utils/errorMessage";
 import { dbConnect, Vault } from "@/utils/mongo";
 import { NextRequest, NextResponse } from "next/server";
