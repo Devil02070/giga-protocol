@@ -144,13 +144,13 @@ We would like to express our gratitude to the following resources that have sign
 
 <p align="right">(<a href="#readme-top">Back to top</a>)</p>
 
-[contributors-shield]: https://img.shields.io/github/contributors/ajaythxkur/giga-protocol.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/Devil02070/giga-protocol.svg?style=for-the-badge
 [contributors-url]: https://github.com/Devil02070/giga-protocol/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/ajaythxkur/giga-protocol.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/Devil02070/giga-protocol.svg?style=for-the-badge
 [forks-url]: https://github.com/Devil02070/giga-protocol/network/members
-[stars-shield]: https://img.shields.io/github/stars/ajaythxkur/giga-protocol.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/Devil02070/giga-protocol.svg?style=for-the-badge
 [stars-url]: https://github.com/Devil02070/giga-protocol/stargazers
-[issues-shield]: https://img.shields.io/github/issues/ajaythxkur/giga-protocol.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/Devil02070/giga-protocol.svg?style=for-the-badge
 [issues-url]: https://github.com/Devil02070/giga-protocol/issues
 [github-url]: https://github.com/Devil02070/giga-protocol
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
